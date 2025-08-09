@@ -1,5 +1,5 @@
 export default function Page(){
     return <h1>
-        Learning Page
+        Marketing Page
     </h1>
 }
