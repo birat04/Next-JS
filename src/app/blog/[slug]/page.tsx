@@ -1,12 +1,21 @@
+interface Post {
+  slug: string;
+  title: string;
+  content: string;
+}
 
+export async function generateStaticParams() {
+  const posts: Post[] = await fetch("https://.../posts").then(res => res.json());
+  return posts.map((post) => ({ slug: post.slug }));
+}
 
-type PageProps<T extends string> = {
-  params: {
-    slug: string;
-  };
-};
+export default async function Page({ params }: { params: { slug: string } }) {
+  const post = await fetch(`https://.../posts/${params.slug}`).then(res => res.json());
 
-export default async function Page(props: PageProps<'/blog/[slug]'>) {
-  const { slug } = props.params;
-  return <h1>Blog post: {slug}</h1>;
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.content}</p>
+    </article>
+  );
 }
